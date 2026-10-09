@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import Avatar from "../../../components/Avatar";
 import useInput from "../../../hooks/useInput";
 import { showWarningDialog } from "../../../helpers/toolsHelper";
@@ -19,6 +20,11 @@ const Card = ({ title, children }) => (
   </section>
 );
 
+Card.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
+
 const Field = ({ id, label, error, ...props }) => (
   <div>
     <label htmlFor={id} className="mb-1.5 block text-sm font-bold text-stone-700">{label}</label>
@@ -27,11 +33,22 @@ const Field = ({ id, label, error, ...props }) => (
   </div>
 );
 
+Field.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  error: PropTypes.string,
+};
+
 const SubmitButton = ({ busy, children }) => (
   <button type="submit" disabled={busy} className="rounded-2xl bg-indigo-950 px-5 py-3 font-bold text-amber-300 hover:bg-indigo-900 disabled:opacity-60">
     {children}
   </button>
 );
+
+SubmitButton.propTypes = {
+  busy: PropTypes.bool,
+  children: PropTypes.node,
+};
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -63,7 +80,7 @@ export default function ProfilePage() {
 
   const savePhoto = async (event) => {
     event.preventDefault();
-    if (await dispatch(asyncChangeProfilePhoto(photo))) setPhoto(null);
+    if (await Promise.resolve(dispatch(asyncChangeProfilePhoto(photo)))) setPhoto(null);
   };
 
   const savePassword = async (event) => {
@@ -75,9 +92,9 @@ export default function ProfilePage() {
     setPasswordErrors(found);
     if (Object.keys(found).length > 0) return;
 
-    const changed = await dispatch(
+    const changed = await Promise.resolve(dispatch(
       asyncChangeProfilePassword({ password: current.value, new_password: next.value }),
-    );
+    ));
     if (changed) {
       current.reset();
       next.reset();

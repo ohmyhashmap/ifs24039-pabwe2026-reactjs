@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IconInbox, IconLoader2, IconPlus, IconSearch } from "@tabler/icons-react";
+import PropTypes from "prop-types";
 import Segmented from "../../../components/Segmented";
 import useInput from "../../../hooks/useInput";
 import { isDone } from "../../../helpers/toolsHelper";
@@ -22,6 +23,12 @@ function StatTile({ label, value, tone }) {
     </div>
   );
 }
+
+StatTile.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  tone: PropTypes.string.isRequired,
+};
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -53,19 +60,19 @@ export default function HomePage() {
   );
 
   const toggleDone = async (item) => {
-    const changed = await dispatch(
+    const changed = await Promise.resolve(dispatch(
       asyncChangeLostFound(item.id, {
         title: item.title,
         description: item.description,
         status: item.status,
         is_completed: isDone(item) ? 0 : 1,
       }),
-    );
+    ));
     if (changed) reload();
   };
 
   const remove = async (item) => {
-    if (await dispatch(asyncDeleteLostFound(item.id))) reload();
+    if (await Promise.resolve(dispatch(asyncDeleteLostFound(item.id)))) reload();
   };
 
   return (
@@ -117,9 +124,9 @@ export default function HomePage() {
           </div>
 
           {isLostFound && (
-            <p role="status" className="flex items-center justify-center gap-2 py-10 text-stone-600">
+            <output className="flex items-center justify-center gap-2 py-10 text-stone-600">
               <IconLoader2 className="animate-spin" /> Memuat laporan…
-            </p>
+            </output>
           )}
 
           {!isLostFound && visible.length === 0 && (

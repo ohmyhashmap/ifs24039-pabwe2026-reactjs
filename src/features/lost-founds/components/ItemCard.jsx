@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { IconCalendar, IconCircleCheck, IconPackage, IconRotate2, IconTrash } from "@tabler/icons-react";
+import PropTypes from "prop-types";
 import { formatDate, isDone, resolveMediaUrl } from "../../../helpers/toolsHelper";
 
 export const StatusPill = ({ status }) => (
@@ -13,6 +14,10 @@ export const StatusPill = ({ status }) => (
     {status === "lost" ? "Hilang" : "Ditemukan"}
   </span>
 );
+
+StatusPill.propTypes = {
+  status: PropTypes.string.isRequired,
+};
 
 export default function ItemCard({ item, onToggleDone, onDelete }) {
   const cover = resolveMediaUrl(item.cover);
@@ -73,3 +78,17 @@ export default function ItemCard({ item, onToggleDone, onDelete }) {
     </article>
   );
 }
+
+ItemCard.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    cover: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    status: PropTypes.string.isRequired,
+    created_at: PropTypes.string,
+    is_completed: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }).isRequired,
+  onToggleDone: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};

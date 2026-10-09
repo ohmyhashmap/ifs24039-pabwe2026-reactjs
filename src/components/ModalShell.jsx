@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { IconX } from "@tabler/icons-react";
+import PropTypes from "prop-types";
 
 // Kerangka dialog: backdrop klik-untuk-tutup, tombol Esc, dan header judul.
 export default function ModalShell({ title, subtitle, onClose, children }) {
@@ -13,13 +14,15 @@ export default function ModalShell({ title, subtitle, onClose, children }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-4">
-      <div
+      <button
+        type="button"
+        aria-label="Tutup dialog"
         data-testid="modal-backdrop"
-        className="absolute inset-0 bg-indigo-950/60 backdrop-blur-sm"
+        className="absolute inset-0 appearance-none border-0 bg-indigo-950/60 p-0 backdrop-blur-sm"
         onClick={onClose}
       />
-      <section
-        role="dialog"
+      <dialog
+        open
         aria-modal="true"
         aria-labelledby="modal-title"
         className="relative max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] bg-white p-6 shadow-2xl sm:rounded-[2rem]"
@@ -41,7 +44,14 @@ export default function ModalShell({ title, subtitle, onClose, children }) {
           </button>
         </header>
         {children}
-      </section>
+      </dialog>
     </div>
   );
 }
+
+ModalShell.propTypes = {
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node,
+};

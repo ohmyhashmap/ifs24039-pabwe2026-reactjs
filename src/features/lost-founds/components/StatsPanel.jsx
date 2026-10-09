@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import { toSeries } from "../../../helpers/toolsHelper";
 import { asyncGetLostFoundStats } from "../states/action";
 
@@ -30,6 +31,16 @@ function BarList({ title, rows }) {
   );
 }
 
+BarList.propTypes = {
+  title: PropTypes.string.isRequired,
+  rows: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
+    }),
+  ).isRequired,
+};
+
 export default function StatsPanel() {
   const dispatch = useDispatch();
   const stats = useSelector((state) => state.lostFounds.lostFoundStats);
@@ -38,7 +49,7 @@ export default function StatsPanel() {
     dispatch(asyncGetLostFoundStats());
   }, [dispatch]);
 
-  if (!stats) return <p role="status" className="py-10 text-center text-stone-600">Memuat statistik…</p>;
+  if (!stats) return <output className="block py-10 text-center text-stone-600">Memuat statistik…</output>;
 
   return (
     <div className="grid gap-5 lg:grid-cols-2">

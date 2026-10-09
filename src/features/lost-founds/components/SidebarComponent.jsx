@@ -8,6 +8,7 @@ import {
   IconUsers,
   IconX,
 } from "@tabler/icons-react";
+import PropTypes from "prop-types";
 
 const MENU = [
   { id: "reports", to: "/", label: "Laporan", icon: IconLayoutDashboard },
@@ -28,9 +29,11 @@ export default function SidebarComponent({ open, onClose }) {
   return (
     <>
       {open && (
-        <div
+        <button
+          type="button"
+          aria-label="Tutup navigasi"
           data-testid="sidebar-overlay"
-          className="fixed inset-0 z-30 bg-indigo-950/50 lg:hidden"
+          className="fixed inset-0 z-30 appearance-none border-0 bg-indigo-950/50 p-0 lg:hidden"
           onClick={onClose}
         />
       )}
@@ -89,3 +92,8 @@ export default function SidebarComponent({ open, onClose }) {
     </>
   );
 }
+
+SidebarComponent.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

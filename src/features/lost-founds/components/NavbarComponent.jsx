@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IconChevronDown, IconLogout, IconMenu2, IconUser } from "@tabler/icons-react";
+import PropTypes from "prop-types";
 import Avatar from "../../../components/Avatar";
 import { asyncLogout } from "../../auth/states/action";
 
@@ -35,7 +36,7 @@ export default function NavbarComponent({ onOpenMenu }) {
           </h1>
           <p className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
             <span className="size-2 rounded-full bg-emerald-500" />
-            Sesi aktif
+            <span>Sesi aktif</span>
           </p>
         </div>
       </div>
@@ -86,3 +87,7 @@ export default function NavbarComponent({ onOpenMenu }) {
     </header>
   );
 }
+
+NavbarComponent.propTypes = {
+  onOpenMenu: PropTypes.func.isRequired,
+};

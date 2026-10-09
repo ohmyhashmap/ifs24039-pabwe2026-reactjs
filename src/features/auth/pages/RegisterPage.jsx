@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { IconLoader2 } from "@tabler/icons-react";
+import PropTypes from "prop-types";
 import useInput from "../../../hooks/useInput";
 import { asyncRegister } from "../states/action";
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { isValidEmail } from "../validation";
 
 const FIELD_CLASS =
   "w-full rounded-2xl border border-stone-300 bg-stone-50 px-4 py-3 outline-none transition focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100";
@@ -22,6 +22,12 @@ function Field({ id, label, error, ...inputProps }) {
   );
 }
 
+Field.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  error: PropTypes.string,
+};
+
 export default function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,16 +42,16 @@ export default function RegisterPage() {
     event.preventDefault();
     const found = {};
     if (name.value.trim().length < 3) found.name = "Nama minimal 3 karakter";
-    if (!EMAIL_PATTERN.test(email.value)) found.email = "Format email tidak valid";
+    if (!isValidEmail(email.value)) found.email = "Format email tidak valid";
     if (password.value.length < 6) found.password = "Kata sandi minimal 6 karakter";
     if (confirm.value !== password.value) found.confirm = "Konfirmasi kata sandi tidak sama";
     setErrors(found);
     if (Object.keys(found).length > 0) return;
 
     setSubmitting(true);
-    const created = await dispatch(
+    const created = await Promise.resolve(dispatch(
       asyncRegister({ name: name.value.trim(), email: email.value, password: password.value }),
-    );
+    ));
     setSubmitting(false);
     if (created) navigate("/auth/login");
   };

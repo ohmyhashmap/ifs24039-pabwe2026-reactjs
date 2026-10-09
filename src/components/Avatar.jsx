@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import PropTypes from "prop-types";
 import { initialsOf, resolveMediaUrl } from "../helpers/toolsHelper";
 
 export default function Avatar({ name, photo, className }) {
@@ -15,3 +16,9 @@ export default function Avatar({ name, photo, className }) {
     </span>
   );
 }
+
+Avatar.propTypes = {
+  name: PropTypes.string,
+  photo: PropTypes.string,
+  className: PropTypes.string,
+};

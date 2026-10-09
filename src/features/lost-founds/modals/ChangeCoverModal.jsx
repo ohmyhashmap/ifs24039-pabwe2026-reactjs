@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import { IconLoader2, IconPhoto } from "@tabler/icons-react";
 import ModalShell from "../../../components/ModalShell";
 import { resolveMediaUrl, showWarningDialog } from "../../../helpers/toolsHelper";
@@ -28,7 +29,7 @@ export default function ChangeCoverModal({ item, onClose, onSaved }) {
   };
 
   const save = async () => {
-    if (await dispatch(asyncChangeLostFoundCover(item.id, file))) {
+    if (await Promise.resolve(dispatch(asyncChangeLostFoundCover(item.id, file)))) {
       onSaved();
       onClose();
     }
@@ -71,3 +72,12 @@ export default function ChangeCoverModal({ item, onClose, onSaved }) {
     </ModalShell>
   );
 }
+
+ChangeCoverModal.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    cover: PropTypes.string,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSaved: PropTypes.func.isRequired,
+};

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import clsx from "clsx";
 import { IconLoader2 } from "@tabler/icons-react";
+import PropTypes from "prop-types";
 import useInput from "../../../hooks/useInput";
 
 const BLANK = { title: "", description: "", status: "lost", completed: false };
@@ -34,7 +35,7 @@ export default function ReportForm({ initial = BLANK, withCompleted = false, bus
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-4">
-      <div role="group" aria-label="Jenis laporan" className="grid grid-cols-2 gap-2">
+      <fieldset aria-label="Jenis laporan" className="grid grid-cols-2 gap-2">
         {KINDS.map(([id, text]) => (
           <button
             key={id}
@@ -51,7 +52,7 @@ export default function ReportForm({ initial = BLANK, withCompleted = false, bus
             {text}
           </button>
         ))}
-      </div>
+      </fieldset>
 
       <div>
         <label htmlFor="report-title" className="mb-1.5 block text-sm font-bold text-stone-700">
@@ -89,7 +90,7 @@ export default function ReportForm({ initial = BLANK, withCompleted = false, bus
             onChange={(event) => setCompleted(event.target.checked)}
             className="size-5 accent-indigo-950"
           />
-          Tandai selesai (barang sudah kembali ke pemilik)
+          <span>Tandai selesai (barang sudah kembali ke pemilik)</span>
         </label>
       )}
 
@@ -104,3 +105,16 @@ export default function ReportForm({ initial = BLANK, withCompleted = false, bus
     </form>
   );
 }
+
+ReportForm.propTypes = {
+  initial: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    status: PropTypes.string,
+    completed: PropTypes.bool,
+  }),
+  withCompleted: PropTypes.bool,
+  busy: PropTypes.bool,
+  submitLabel: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};

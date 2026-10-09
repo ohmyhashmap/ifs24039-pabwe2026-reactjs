@@ -4,8 +4,7 @@ import { useDispatch } from "react-redux";
 import { IconEye, IconEyeOff, IconLoader2 } from "@tabler/icons-react";
 import useInput from "../../../hooks/useInput";
 import { asyncLogin } from "../states/action";
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { isValidEmail } from "../validation";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -18,13 +17,13 @@ export default function LoginPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const found = {};
-    if (!EMAIL_PATTERN.test(email.value)) found.email = "Format email tidak valid";
+    if (!isValidEmail(email.value)) found.email = "Format email tidak valid";
     if (password.value.length < 6) found.password = "Kata sandi minimal 6 karakter";
     setErrors(found);
     if (Object.keys(found).length > 0) return;
 
     setSubmitting(true);
-    await dispatch(asyncLogin({ email: email.value, password: password.value }));
+    await Promise.resolve(dispatch(asyncLogin({ email: email.value, password: password.value })));
     setSubmitting(false);
   };
 

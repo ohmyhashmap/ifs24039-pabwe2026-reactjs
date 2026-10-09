@@ -7,7 +7,7 @@ export const removeAccessToken = () => localStorage.removeItem(TOKEN_SLOT);
 
 export const buildUrl = (path, params = {}) => {
   // Argumen kedua dibutuhkan agar base URL relatif (mis. "/api-proxy") valid.
-  const url = new URL(`${DELCOM_BASEURL}${path}`, window.location.origin);
+  const url = new URL(`${DELCOM_BASEURL}${path}`, globalThis.location.origin);
   Object.entries(params)
     .filter(([, value]) => `${value ?? ""}` !== "")
     .forEach(([key, value]) => url.searchParams.append(key, value));

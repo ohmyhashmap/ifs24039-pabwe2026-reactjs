@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import ModalShell from "../../../components/ModalShell";
 import ReportForm from "../components/ReportForm";
 import { asyncAddLostFound } from "../states/action";
@@ -8,7 +9,7 @@ export default function AddModal({ onClose, onSaved }) {
   const busy = useSelector((state) => state.lostFounds.isLostFoundAdd);
 
   const save = async (payload) => {
-    if (await dispatch(asyncAddLostFound(payload))) {
+    if (await Promise.resolve(dispatch(asyncAddLostFound(payload)))) {
       onSaved();
       onClose();
     }
@@ -20,3 +21,8 @@ export default function AddModal({ onClose, onSaved }) {
     </ModalShell>
   );
 }
+
+AddModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onSaved: PropTypes.func.isRequired,
+};

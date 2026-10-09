@@ -16,7 +16,7 @@ export default function DetailPage() {
   const [dialog, setDialog] = useState(null); // "edit" | "cover" | null
 
   const load = useCallback(async () => {
-    if (!(await dispatch(asyncGetLostFound(id)))) navigate("/");
+    if (!(await Promise.resolve(dispatch(asyncGetLostFound(id))))) navigate("/");
   }, [dispatch, id, navigate]);
 
   useEffect(() => {
@@ -24,10 +24,10 @@ export default function DetailPage() {
   }, [load]);
 
   const remove = async () => {
-    if (await dispatch(asyncDeleteLostFound(id))) navigate("/");
+    if (await Promise.resolve(dispatch(asyncDeleteLostFound(id)))) navigate("/");
   };
 
-  if (!item) return <p role="status" className="py-20 text-center text-stone-600">Memuat detail laporan…</p>;
+  if (!item) return <output className="block py-20 text-center text-stone-600">Memuat detail laporan…</output>;
 
   const cover = resolveMediaUrl(item.cover);
 

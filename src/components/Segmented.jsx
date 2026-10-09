@@ -1,10 +1,10 @@
 import clsx from "clsx";
+import PropTypes from "prop-types";
 
 // Kontrol pilihan tunggal berbentuk pil. options: [[id, label], ...]
 export default function Segmented({ label, value, options, onChange }) {
   return (
-    <div
-      role="group"
+    <fieldset
       aria-label={label}
       className="inline-flex flex-wrap gap-1 rounded-2xl bg-white p-1 ring-1 ring-stone-200"
     >
@@ -22,6 +22,13 @@ export default function Segmented({ label, value, options, onChange }) {
           {text}
         </button>
       ))}
-    </div>
+    </fieldset>
   );
 }
+
+Segmented.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  onChange: PropTypes.func.isRequired,
+};

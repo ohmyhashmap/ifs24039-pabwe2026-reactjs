@@ -31,9 +31,9 @@ export default function LostFoundLayout() {
         <SidebarComponent open={drawerOpen} onClose={closeDrawer} />
         <main className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-8">
           <h1 className="sr-only">Pusat Lost &amp; Found</h1>
-          <p role="status" className="flex items-center justify-center gap-3 py-24 font-semibold text-indigo-950">
+          <output className="flex items-center justify-center gap-3 py-24 font-semibold text-indigo-950">
             <IconLoader2 className="animate-spin" /> Memuat sesi…
-          </p>
+          </output>
         </main>
       </div>
     );

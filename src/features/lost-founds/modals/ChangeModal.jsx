@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import ModalShell from "../../../components/ModalShell";
 import ReportForm from "../components/ReportForm";
 import { isDone } from "../../../helpers/toolsHelper";
@@ -9,7 +10,7 @@ export default function ChangeModal({ item, onClose, onSaved }) {
   const busy = useSelector((state) => state.lostFounds.isLostFoundChange);
 
   const save = async (payload) => {
-    if (await dispatch(asyncChangeLostFound(item.id, payload))) {
+    if (await Promise.resolve(dispatch(asyncChangeLostFound(item.id, payload)))) {
       onSaved();
       onClose();
     }
@@ -27,3 +28,14 @@ export default function ChangeModal({ item, onClose, onSaved }) {
     </ModalShell>
   );
 }
+
+ChangeModal.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    title: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    description: PropTypes.string,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSaved: PropTypes.func.isRequired,
+};
