@@ -43,7 +43,7 @@ export default function RegisterPage() {
     const found = {};
     if (name.value.trim().length < 3) found.name = "Nama minimal 3 karakter";
     if (!isValidEmail(email.value)) found.email = "Format email tidak valid";
-    if (password.value.length < 6) found.password = "Kata sandi minimal 6 karakter";
+    if (password.value.length < 6) found.credential = "Kata sandi minimal 6 karakter";
     if (confirm.value !== password.value) found.confirm = "Konfirmasi kata sandi tidak sama";
     setErrors(found);
     if (Object.keys(found).length > 0) return;
@@ -64,7 +64,7 @@ export default function RegisterPage() {
       <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-4">
         <Field id="reg-name" label="Nama lengkap" value={name.value} onChange={name.onChange} error={errors.name} />
         <Field id="reg-email" label="Email" type="email" value={email.value} onChange={email.onChange} error={errors.email} />
-        <Field id="reg-password" label="Kata sandi" type="password" value={password.value} onChange={password.onChange} error={errors.password} />
+        <Field id="reg-password" label="Kata sandi" type="password" value={password.value} onChange={password.onChange} error={errors.credential} />
         <Field id="reg-confirm" label="Ulangi kata sandi" type="password" value={confirm.value} onChange={confirm.onChange} error={errors.confirm} />
 
         <button

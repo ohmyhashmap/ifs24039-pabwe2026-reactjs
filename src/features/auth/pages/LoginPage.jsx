@@ -18,7 +18,7 @@ export default function LoginPage() {
     event.preventDefault();
     const found = {};
     if (!isValidEmail(email.value)) found.email = "Format email tidak valid";
-    if (password.value.length < 6) found.password = "Kata sandi minimal 6 karakter";
+    if (password.value.length < 6) found.credential = "Kata sandi minimal 6 karakter";
     setErrors(found);
     if (Object.keys(found).length > 0) return;
 
@@ -71,8 +71,8 @@ export default function LoginPage() {
               {reveal ? <IconEyeOff size={20} /> : <IconEye size={20} />}
             </button>
           </div>
-          {errors.password && (
-            <p className="mt-1.5 text-sm font-medium text-rose-600">{errors.password}</p>
+          {errors.credential && (
+            <p className="mt-1.5 text-sm font-medium text-rose-600">{errors.credential}</p>
           )}
         </div>
 
